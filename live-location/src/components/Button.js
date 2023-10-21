@@ -16,6 +16,7 @@ const Button = ({ backgroundColor = '#fff', width = 50, heigth = 50, icon, onPre
          onPress={() => onPress()}
       >
          <Image style={styles.icon} source={icon}>
+            Add Place
          </Image>
       </TouchableOpacity>
    );
