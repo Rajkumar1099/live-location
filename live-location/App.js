@@ -1,77 +1,28 @@
-import { useEffect, useRef } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image ,TouchableOpacity } from 'react-native';
-import Button from './src/components/Button';
-import image from "./assets/HILmr.png";
- import InputText from "./src/components/InputText";
-import { useState } from 'react';
-import MapView, { Marker } from 'react-native-maps';
-import MapViewDirections from "react-native-maps-directions"
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AddCordinate from './src/Screen/AddCordinate';
+import ChooseLocation from "./src/Screen/ChooseLocation"
 
-export default function App() { 
-  const [distanceTravelled, setDistanceTravelled] = useState(0);
-  const [position, setPosition] = useState({
-    pickupCord:{
-      latitude:12.9080,
-      longitude:77.6410,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    },
-    droplocationCors:{
-      latitude:12.9084,
-      longitude:77.6350,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }
-  });
+export default function App (){
 
-  const {pickupCord, droplocationCors} = position;
-  const mapRef=useRef()
-  
+  const Stack=createNativeStackNavigator()
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {/* <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Live location tracker</Text> */}
-      <MapView style={StyleSheet.absoluteFill}
-            initialRegion={pickupCord}
-          >
-            <Marker coordinate={pickupCord} />
-            <Marker coordinate={droplocationCors}/>
-            <MapViewDirections
-              origin={pickupCord}
-              destination={droplocationCors}
-              apikey='AIzaSyDlP3VkFPexEhlMLLgDHK6BN0IM56zH0JE'
-              strokeWidth={3}
-              strokeColor="hotpink"
-              optimizeWaypoints={true}
-              onReady={(res)=>{
-                mapRef.current.fitToCoordinates(res.coordinates,{
-                edgePadding:{
-                  right:30,
-                  bottom:300,
-                  left:30,
-                  top:100
-                }
-              })}}
-            />
-      </MapView>
-
-    </View>
-  );
+    <NavigationContainer styles={styles.container}>
+      <Stack.Navigator>
+        <Stack.Screen name='Home' component={AddCordinate}  />
+        <Stack.Screen name='ChooseLocation' component={ChooseLocation}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
-  tinyLogo: {
-    width: 300,
-    height: 500,
-  },
-  buttonContainer:{
-    height:30,
-    width:100,
-  },
-});
+  container:{
+    flex:1,
+    justifyContent:'center',
+    textAlign:'center'
+  }
+})
